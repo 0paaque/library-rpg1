@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Library RPG</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- Loading Screen -->
+    <div id="loadingScreen">
+
+        <h1>Library Archives</h1>
+
+        <div id="loadingBar">
+            <div id="loadingProgress"></div>
+        </div>
+
+    </div>
+
+    <!-- GAME -->
+<div id="gameContainer">
+
+    <div id="background"></div>
+
+    <div id="camera">
+        <div id="world">
+
+            <div class="room books-room"></div>
+            <div class="room borrow-room"></div>
+            <div class="room security-room"></div>
+            <div class="room catalog-room"></div>
+            <div class="room staff-room"></div>
+            <div class="room archive-room"></div>
+
+        </div>
+
+        <div id="player"></div>
+
+    </div>
+
+</div>
+    <div id="dayDisplay">
+        Day 1
+    </div>
+
+    <div id="dayEndScreen">
+        <div id="dayEndText">Day 1 Complete</div>
+    </div>
+    <div id="prompt">Press E</div>
+    <div id="dialogueHint">
+        Press SPACE
+    </div>
+    <div id="dialogueBox">
+
+        <div id="dialogueHeader">
+            Library Archives
+            <button id="closeDialogue">✕</button>
+        </div>
+
+        <div id="dialogueContent"></div>
+
+        <div id="dialogueChoices"></div>
+
+    </div>
+    <div id="inventoryBox"></div>
+    <div id="corruptionOverlay"></div>
+    <!-- MOBILE CONTROLS -->
+    <div id="mobileControls">
+
+        <div id="moveControls">
+            <button id="leftBtn">◀</button>
+            <button id="rightBtn">▶</button>
+        </div>
+
+        <button id="interactBtn">E</button>
+
+    </div>
+
+    <!-- MOBILE CHOICE MENU -->
+    <div id="mobileChoices"></div>
+    <script src="js/game.js"></script>
+
+</body>
+
+</html>
