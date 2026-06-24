@@ -103,7 +103,7 @@ body {
     width: 350px;
     height: 250px;
     overflow: hidden;
-    border: 5px solid red !important;
+    border: 5px solid rgb(227, 126, 18) !important;
 }
 
 .room img {
