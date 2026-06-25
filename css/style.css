@@ -163,6 +163,44 @@ body {
     transform: scale(1.02);
 }
 
+.books-room {
+
+
+    background-image: url("../library.jpg");
+}
+
+.borrow-room {
+
+
+    background-image: url("../borrow.jpg");
+}
+
+.security-room {
+
+
+    background-image: url("../security.jpg");
+}
+
+.catalog-room {
+
+    background-image: url("../catalogue.jpg");
+}
+
+.staff-room {
+    top: 390px;
+    left: 1400px;
+
+    background-image: url("../staff.jpg");
+}
+
+
+
+.archive-room {
+    top: 390px;
+    left: 1400px;
+
+    background-image: url("../security.jpg");
+}
 
 
 /* PROMPT */
