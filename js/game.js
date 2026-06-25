@@ -51,6 +51,18 @@ const rightBtn =
 const interactBtn =
     document.getElementById("interactBtn");
 
+
+[leftBtn, rightBtn, interactBtn].forEach(btn => {
+
+    btn?.addEventListener("contextmenu", e => {
+        e.preventDefault();
+    });
+
+    btn?.addEventListener("selectstart", e => {
+        e.preventDefault();
+    });
+
+});
 const MOBILE_LAYOUT = {
     books: { x: 300, y: 280 },
     borrow: { x: 900, y: 280 },

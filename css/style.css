@@ -456,15 +456,26 @@ body {
     border: none;
     border-radius: 50%;
 
-    background: rgba(0, 0, 0, .7);
+    background: rgba(0,0,0,.7);
     color: white;
 
     font-size: 28px;
     font-weight: bold;
 
     touch-action: manipulation;
+
+    /* FIXES */
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+
+    cursor: pointer;
 }
 
+#mobileControls {
+    user-select: none;
+    -webkit-user-select: none;
+}
 #interactBtn {
     width: 80px !important;
     height: 80px !important;
