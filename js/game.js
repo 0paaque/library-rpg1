@@ -358,7 +358,7 @@ const rooms = [
 
         mobile: {
             x: 300,
-            y: 140
+            y: 520
         },
 
         w: 300,
@@ -393,7 +393,7 @@ const rooms = [
 
         mobile: {
             x: 900,
-            y: 280
+            y: 520
         },
 
         w: 300,
@@ -418,7 +418,7 @@ const rooms = [
 
         mobile: {
             x: 1500,
-            y: 280
+            y: 520
         },
 
         w: 300,
@@ -451,7 +451,7 @@ const rooms = [
 
         mobile: {
             x: 2100,
-            y: 280
+            y: 520
         },
 
         w: 300,
@@ -476,7 +476,7 @@ const rooms = [
 
         mobile: {
             x: 2800,
-            y: 280
+            y: 520
         },
 
         w: 300,
@@ -501,7 +501,7 @@ const rooms = [
 
         mobile: {
             x: 600,
-            y: 600
+            y: 1000
         },
 
         w: 300,
@@ -753,7 +753,7 @@ const PLAYER_POSITION = {
 
     mobile: {
         x: 40,   // move slightly left on mobile
-        y: 210   // higher from bottom
+        y: 150   // higher from bottom
     }
 
 }
