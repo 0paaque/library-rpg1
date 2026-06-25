@@ -9,7 +9,16 @@ const inventoryBox = document.getElementById('inventoryBox')
 const loadingScreen = document.getElementById('loadingScreen')
 const loadingProgress = document.getElementById('loadingProgress')
 const WORLD_CENTER = window.innerWidth / 2
+const objectiveBox =
+    document.getElementById(
+        "objectiveBox"
+    );
 
+
+const dialogueHint =
+    document.getElementById(
+        "dialogueHint"
+    )
 const dayDisplay =
     document.getElementById(
         "dayDisplay"
@@ -28,7 +37,10 @@ const BASE_GROUND_Y = 410; // where ground rooms sit in your PC design
 
 const isMobile =
     /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-
+const promptText =
+    isMobile
+        ? "Interact"
+        : "Press E";
 
 const leftBtn =
     document.getElementById("leftBtn");
@@ -112,7 +124,7 @@ const state = {
     currentRoom: null,
     previousRoom: null,
 }
-updateInventory()
+
 leftBtn?.addEventListener("touchstart", () => {
     state.keys["a"] = true
 })
@@ -159,8 +171,8 @@ function addClue(text) {
 
 
         updateInventory()
-
-        showDialogue("Clue added: " + text, 1200)
+        updateObjective();
+        showDialogue("Clue added: " + text)
 
         checkStoryProgress()
 
@@ -180,6 +192,44 @@ function updateInventory() {
         (state.day1Complete ? "✓ Ready to end shift<br><br>" : "") +
         state.clues.map(c => "• " + c).join("<br>")
 }
+
+function updateObjective() {
+    if (state.day === 1) {
+
+        objectiveBox.innerHTML =
+            `
+        <b>OBJECTIVE</b><br>
+        Investigate the library<br>
+        Clues Found:
+        ${state.clues.length}/4
+        ${state.day1Complete
+                ? "<br><br>✓ Shift Complete"
+                : ""
+            }
+        `;
+    }
+
+    if (state.day === 2) {
+
+        objectiveBox.innerHTML =
+            `
+            <b>OBJECTIVE</b><br>
+            Investigate record corruption
+            `;
+    }
+
+    if (state.day === 3) {
+
+        objectiveBox.innerHTML =
+            `
+            <b>OBJECTIVE</b><br>
+            Find the Archive Codex
+            `;
+    }
+}
+updateInventory();
+updateObjective();
+
 closeDialogue.addEventListener("click", () => {
 
     dialogueQueue.length = 0
@@ -211,6 +261,7 @@ function showDialogue(text) {
     nextDialogue()
 }
 
+
 function nextDialogue() {
 
     if (showingDialogue) return
@@ -233,20 +284,26 @@ function nextDialogue() {
 
     dialogueBox.style.display =
         "block"
+    dialogueHint.style.display =
+        "none"
 }
 
-const dialogueHint =
-    document.getElementById(
-        "dialogueHint"
-    )
-
 function continueDialogue() {
+
+    if (
+        document.getElementById(
+            "dialogueChoices"
+        ).children.length > 0
+    ) {
+        return
+    }
 
     if (!showingDialogue)
         return
 
     showingDialogue = false
-
+    dialogueHint.style.display =
+        "none"
     dialogueBox.style.display =
         "none"
 
@@ -256,7 +313,10 @@ function continueDialogue() {
 }
 
 
-
+dialogueBox.addEventListener(
+    "click",
+    continueDialogue
+)
 /* =========================
 CORRUPTION SYSTEM
 ========================= */
@@ -273,6 +333,15 @@ function addCorruption(val = 1) {
         showDialogue("Something is rewriting the library...")
     }
 }
+
+const roomPrompts = {
+    books: "Inspect",
+    borrow: "Check Records",
+    security: "Review Logs",
+    catalog: "Search",
+    staff: "Investigate",
+    archive: "Access"
+};
 
 /* =========================
 ROOMS
@@ -494,7 +563,6 @@ window.addEventListener("keydown", (e) => {
 
         return
     }
-
     if (e.key.toLowerCase() === "e" && state.currentRoom) {
 
         const room = roomSounds[state.currentRoom.id]
@@ -513,6 +581,8 @@ window.addEventListener("keydown", (e) => {
 window.addEventListener("keyup", (e) => {
     state.keys[e.key.toLowerCase()] = false
 })
+
+
 
 /* =========================
 MOVEMENT (SPRITE CONTROL)
@@ -654,17 +724,14 @@ function checkRooms() {
                 - playerWorldX
             );
 
-        if (dx < 120) {
+        if (dx < 240) {
 
             state.currentRoom = room;
             break;
         }
     }
 
-    promptBox.style.display =
-        state.currentRoom
-            ? "block"
-            : "none";
+
 
     if (
         state.currentRoom &&
@@ -738,6 +805,7 @@ function loop() {
         render()
         renderRooms()
         checkRooms()
+        updateRoomPrompts()
     }
 
     requestAnimationFrame(loop)
@@ -833,15 +901,38 @@ function openInvestigationMenu(roomId) {
             {
                 text: "Review logs",
                 action: () => {
-                    addClue("Edited Security Log")
+
+                    if (
+                        state.clues.includes(
+                            "Edited Security Log"
+                        )
+                    ) {
+
+                        showDialogue(
+                            "You've already reviewed these logs."
+                        )
+
+                        return
+                    }
+
+                    addClue(
+                        "Edited Security Log"
+                    )
+
                     addCorruption(2)
-                    showDialogue("Logs have been tampered with.")
+
+                    showDialogue(
+                        "Logs have been tampered with."
+                    )
                 }
             },
+
             {
                 text: "Check cameras",
                 action: () => {
-                    showDialogue("Footage is missing between timestamps.")
+                    showDialogue(
+                        "Footage is missing between timestamps."
+                    )
                 }
             }
         ]
@@ -864,15 +955,53 @@ function openInvestigationMenu(roomId) {
             {
                 text: "Search Archive Codex",
                 action: () => {
-                    showDialogue("No results found.")
-                    addClue("Catalog Denial: Archive Codex")
+
+                    if (
+                        state.clues.includes(
+                            "Catalog Denial: Archive Codex"
+                        )
+                    ) {
+
+                        showDialogue(
+                            "You've already searched for the Codex."
+                        )
+
+                        return
+                    }
+
+                    showDialogue(
+                        "No results found."
+                    )
+
+                    addClue(
+                        "Catalog Denial: Archive Codex"
+                    )
                 }
             },
             {
                 text: "Check recent deletions",
                 action: () => {
-                    showDialogue("1 record removed today.")
-                    addClue("Recent Deletion Log")
+
+                    if (
+                        state.clues.includes(
+                            "Recent Deletion Log"
+                        )
+                    ) {
+
+                        showDialogue(
+                            "You've already checked the deletion logs."
+                        )
+
+                        return
+                    }
+
+                    showDialogue(
+                        "1 record removed today."
+                    )
+
+                    addClue(
+                        "Recent Deletion Log"
+                    )
                 }
             }
         ]
@@ -884,8 +1013,27 @@ function openInvestigationMenu(roomId) {
             {
                 text: "Check employee board",
                 action: () => {
-                    showDialogue("Your name is missing.")
-                    addClue("Missing Employee Entry")
+
+                    if (
+                        state.clues.includes(
+                            "Missing Employee Entry"
+                        )
+                    ) {
+
+                        showDialogue(
+                            "You've already checked the employee board."
+                        )
+
+                        return
+                    }
+
+                    showDialogue(
+                        "Your name is missing."
+                    )
+
+                    addClue(
+                        "Missing Employee Entry"
+                    )
                 }
             },
             {
@@ -960,7 +1108,52 @@ function showChoiceUI(options) {
     })
 }
 
+function updateRoomPrompts() {
 
+    console.log("PROMPT UPDATE");
+
+    document
+        .querySelectorAll(".roomPrompt")
+        .forEach(prompt => {
+
+            prompt.textContent = promptText;
+            prompt.style.display = "none";
+        });
+
+    if (!state.currentRoom) return;
+
+    const roomElement =
+        document.querySelector(
+            `.${state.currentRoom.id}-room`
+        );
+
+    const prompt =
+        roomElement?.querySelector(
+            ".roomPrompt"
+        );
+
+    if (prompt) {
+
+        console.log("SHOWING", state.currentRoom.id);
+
+        prompt.style.display = "block";
+    }
+
+    prompt.textContent =
+        isMobile
+            ? roomPrompts[state.currentRoom.id]
+            : `[E] ${roomPrompts[state.currentRoom.id]}`;
+}
+
+function updateObjective() {
+
+    objectiveBox.innerHTML =
+        `
+        <b>OBJECTIVE</b><br>
+        Investigate the library<br>
+        Clues Found: ${state.clues.length}/4
+        `;
+}
 
 function updateAtmosphere() {
     if (corruption > 3) {
@@ -978,8 +1171,9 @@ function endDay() {
 
     state.clues = []
     state.day1Complete = false
-    updateDayDisplay()
-    updateInventory()
+    updateDayDisplay();
+    updateInventory();
+    updateObjective();
 
     showDialogue("Day " + state.day + " begins...")
 }
@@ -1009,8 +1203,7 @@ function chapter1Ending() {
     showDialogue(
         "All records have been rewritten.\n\n" +
         "But one thing remains inconsistent...\n\n" +
-        "You were not hired yesterday.",
-        2000
+        "You were not hired yesterday."
     )
 }
 
@@ -1061,7 +1254,7 @@ function checkStoryProgress() {
     // DAY 1 COMPLETE
     if (
         state.day === 1 &&
-        c >= 3 &&
+        c >= 2 &&
         state.storyStage < 1
     ) {
 

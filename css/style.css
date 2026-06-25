@@ -102,10 +102,56 @@ body {
     position: absolute;
     width: 350px;
     height: 250px;
-    overflow: hidden;
+    overflow: visible;
     border: 5px solid rgb(227, 126, 18) !important;
+}   
+
+.roomPrompt {
+
+    position: absolute;
+
+    top: -35px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    background: rgba(0,0,0,.85);
+
+    color: #fff;
+
+    padding: 6px 12px;
+
+    border-radius: 20px;
+
+    border: 2px solid #c8b27d;
+
+    font-weight: bold;
+
+    font-size: 13px;
+
+    white-space: nowrap;
+
+    animation: promptPulse 1s infinite;
+
+    display: none;
+
+    z-index: 1000;
 }
 
+@keyframes promptPulse {
+
+    0% {
+        transform: translateX(-50%) scale(1);
+    }
+
+    50% {
+        transform: translateX(-50%) scale(1.08);
+    }
+
+    100% {
+        transform: translateX(-50%) scale(1);
+    }
+}
 .room img {
     width: 100%;
     height: 100%;
@@ -117,44 +163,6 @@ body {
     transform: scale(1.02);
 }
 
-.books-room {
-
-
-    background-image: url("../library.jpg");
-}
-
-.borrow-room {
-
-
-    background-image: url("../borrow.jpg");
-}
-
-.security-room {
-
-
-    background-image: url("../security.jpg");
-}
-
-.catalog-room {
-
-    background-image: url("../catalogue.jpg");
-}
-
-.staff-room {
-    top: 390px;
-    left: 1400px;
-
-    background-image: url("../staff.jpg");
-}
-
-
-
-.archive-room {
-    top: 390px;
-    left: 1400px;
-
-    background-image: url("../security.jpg");
-}
 
 
 /* PROMPT */
@@ -472,6 +480,43 @@ body {
     transform: scale(0.98);
 }
 
+
+#objectiveBox {
+
+    position: fixed;
+
+    top: 80px;
+    left: 20px;
+
+    width: 260px;
+
+    background: rgba(15, 15, 20, .92);
+
+    border: 2px solid #c8b27d;
+
+    border-radius: 12px;
+
+    padding: 15px;
+
+    color: white;
+
+    box-shadow: 0 0 15px rgba(0,0,0,.4);
+
+    z-index: 999;
+}
+@media (max-width: 768px) {
+
+    #objectiveBox {
+
+        width: 180px;
+
+        font-size: 13px;
+
+        top: 65px;
+        left: 10px;
+    }
+}
+
 /* PHONE */
 @media (max-width: 768px) {
 
@@ -516,3 +561,4 @@ body {
         height: 200px;
     }
 }
+
