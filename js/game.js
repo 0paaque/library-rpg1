@@ -358,7 +358,7 @@ const rooms = [
 
         mobile: {
             x: 300,
-            y: 820
+            y: 400
         },
 
         w: 300,
