@@ -358,7 +358,7 @@ const rooms = [
 
         mobile: {
             x: 300,
-            y: 520
+            y: 420
         },
 
         w: 300,
@@ -393,7 +393,7 @@ const rooms = [
 
         mobile: {
             x: 900,
-            y: 520
+            y: 820
         },
 
         w: 300,
@@ -418,7 +418,7 @@ const rooms = [
 
         mobile: {
             x: 1500,
-            y: 520
+            y: 720
         },
 
         w: 300,
@@ -451,7 +451,7 @@ const rooms = [
 
         mobile: {
             x: 2100,
-            y: 520
+            y: 920
         },
 
         w: 300,
